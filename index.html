@@ -3,16 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checklist Primeiros Passos | SELETA</title>
+<title>Checklist Primeiros Passos | Marca Seleta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ─── TOKENS ─────────────────────────────────────────────────── */
 :root {
-  --navy-deep:   #091530;
-  --navy-dark:   #0D1B3E;
-  --navy-mid:    #162D5C;
-  --navy-light:  #253870;
-  --blue-accent: #4A82D0;
-  --blue-light:  #5B7EC5;
+  /* Marca Seleta brand */
+  --seleta-blue:   #3459C4;
+  --seleta-mid:    #2747A8;
+  --seleta-light:  #5378D6;
+  --seleta-glow:   rgba(52,89,196,0.30);
+
+  /* Navy scale */
+  --navy-deep:   #060D1F;
+  --navy-dark:   #0A1428;
+  --navy-mid:    #111F3E;
+  --navy-light:  #1C3060;
+
+  /* UI colours */
+  --blue-accent: #3459C4;
+  --blue-light:  #5378D6;
   --cyan:        #5BC8F5;
   --green:       #2DBD7E;
   --green-dk:    #00B050;
@@ -35,18 +47,18 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
   background: var(--navy-deep);
   color: var(--white);
   min-height: 100vh;
-  padding-bottom: 60px;
+  padding-bottom: 0;
 }
 
 /* ─── HEADER ─────────────────────────────────────────────────── */
 .header {
   background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-mid) 100%);
-  border-bottom: 2px solid var(--cyan);
-  padding: 22px 40px 18px;
+  border-bottom: 2px solid var(--seleta-blue);
+  padding: 18px 40px;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -56,21 +68,44 @@ body {
   flex-wrap: wrap;
 }
 
-.header-brand { display:flex; align-items:center; gap:12px; }
+.header-brand { display:flex; align-items:center; gap:14px; }
+
+/* Marca Seleta logo container */
 .header-logo {
-  width:42px; height:42px; background:var(--cyan);
-  border-radius:10px; display:flex; align-items:center;
-  justify-content:center; font-size:20px; flex-shrink:0;
+  height:40px; flex-shrink:0;
+  display:flex; align-items:center;
 }
-.header-text h1 { font-size:18px; font-weight:700; letter-spacing:-0.3px; }
-.header-text p  { font-size:11px; color:var(--cyan); font-weight:500; letter-spacing:0.8px; text-transform:uppercase; margin-top:2px; }
+.header-logo img {
+  height:40px; width:auto;
+  /* filter to make it visible on dark bg if needed */
+  filter: brightness(1.05) drop-shadow(0 1px 6px rgba(52,89,196,0.4));
+}
+
+/* Divider between logo and title text */
+.header-divider {
+  width:1px; height:36px; background:var(--w20); flex-shrink:0;
+}
+
+.header-text h1 { font-size:16px; font-weight:700; letter-spacing:-0.2px; line-height:1.2; }
+.header-text p  {
+  font-size:10px; color:var(--seleta-light); font-weight:600;
+  letter-spacing:0.9px; text-transform:uppercase; margin-top:3px;
+}
+
+/* Anytools badge */
+.header-anytools {
+  display:flex; align-items:center; gap:5px; margin-top:4px;
+  font-size:9px; color:var(--w50); font-weight:500; letter-spacing:0.5px;
+}
+.header-anytools span { color:var(--w50); text-transform:uppercase; }
+.header-anytools strong { color:var(--seleta-light); font-weight:700; }
 
 .header-progress-wrap { flex:1; min-width:200px; }
 .progress-labels { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:7px; }
 .progress-label  { font-size:11px; color:var(--w80); font-weight:500; text-transform:uppercase; letter-spacing:0.6px; }
 .progress-pct    { font-size:20px; font-weight:800; color:var(--mk-color); transition:color .3s; }
-.progress-track  { height:7px; background:var(--w20); border-radius:999px; overflow:hidden; }
-.progress-fill   { height:100%; background:linear-gradient(90deg,var(--blue-accent),var(--mk-color)); border-radius:999px; transition:width .5s cubic-bezier(.4,0,.2,1),background .3s; width:0; }
+.progress-track  { height:6px; background:var(--w20); border-radius:999px; overflow:hidden; }
+.progress-fill   { height:100%; background:linear-gradient(90deg,var(--seleta-blue),var(--mk-color)); border-radius:999px; transition:width .5s cubic-bezier(.4,0,.2,1),background .3s; width:0; }
 
 /* ─── CELEBRATION ────────────────────────────────────────────── */
 .celebration {
@@ -131,7 +166,7 @@ body {
   overflow:hidden; border:1px solid var(--w20);
   transition:box-shadow .3s;
 }
-.phase:hover { box-shadow:0 6px 24px rgba(91,200,245,0.09); }
+.phase:hover { box-shadow:0 6px 24px var(--seleta-glow); }
 .phase.done  { border-color:var(--green); }
 .phase.done .phase-header { background:linear-gradient(135deg,#0B3D25,#0F5034); }
 
@@ -179,7 +214,7 @@ body {
 .phase-pbar  { height:3px; background:var(--w20); }
 .phase-pfill {
   height:100%;
-  background:linear-gradient(90deg,var(--blue-accent),var(--mk-color));
+  background:linear-gradient(90deg,var(--seleta-blue),var(--mk-color));
   transition:width .5s cubic-bezier(.4,0,.2,1),background .3s;
   width:0;
 }
@@ -259,13 +294,64 @@ body {
 }
 .reset-btn:hover { border-color:var(--red); color:var(--red); }
 
+/* ─── FOOTER ─────────────────────────────────────────────────── */
+.site-footer {
+  margin-top: 60px;
+  background: linear-gradient(180deg, var(--navy-dark) 0%, var(--navy-deep) 100%);
+  border-top: 1px solid rgba(52,89,196,0.30);
+  padding: 36px 40px 28px;
+}
+
+.footer-inner {
+  max-width: 860px; margin: 0 auto;
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+  text-align: center;
+}
+
+.footer-logo {
+  height: 36px; width: auto;
+  filter: brightness(1.0) drop-shadow(0 1px 8px rgba(52,89,196,0.35));
+}
+
+.footer-tagline {
+  font-size: 13px; color: var(--w50); font-weight: 500; line-height: 1.6;
+  max-width: 480px;
+}
+.footer-tagline strong { color: var(--w80); }
+
+.footer-links {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px;
+  font-size: 11px;
+}
+.footer-links a {
+  color: var(--seleta-light); text-decoration: none; font-weight: 600;
+  letter-spacing: 0.3px; transition: color .2s;
+}
+.footer-links a:hover { color: var(--white); }
+
+.footer-sep { width: 1px; height: 14px; background: var(--w20); align-self: center; }
+
+.footer-bottom {
+  font-size: 10px; color: var(--w50); letter-spacing: 0.4px;
+  border-top: 1px solid var(--w10); padding-top: 18px; width: 100%;
+  text-align: center;
+}
+.footer-bottom a { color: var(--w50); text-decoration: none; }
+.footer-bottom a:hover { color: var(--seleta-light); }
+
+.footer-db1 {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; color: var(--w50); margin-top: 4px;
+}
+.footer-db1 img { height: 14px; opacity: .6; filter: brightness(2) grayscale(.3); }
+
 /* ─── PRINT ──────────────────────────────────────────────────── */
 @media print {
   body { background:#fff; color:#000; }
   .header { background:#0D1B3E!important; position:relative; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   .mk-switcher { display:none!important; }
   .mk-panel { display:block!important; }
-  .celebration,.reset-btn { display:none!important; }
+  .celebration,.reset-btn,.site-footer { display:none!important; }
   .phase { break-inside:avoid; border:1.5px solid #253870; }
   .phase-header { background:#162D5C!important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   .phase-body { max-height:none!important; }
@@ -282,12 +368,16 @@ body {
 }
 
 @media (max-width:600px) {
-  .header { padding:16px; }
+  .header { padding:14px 16px; }
+  .header-logo img { height:32px; }
+  .header-divider { display:none; }
   .mk-switcher { padding:20px 12px 0; gap:8px; }
   .mk-btn { min-width:140px; padding:12px 14px; }
   .container { padding:20px 12px 0; }
   .phase-header { padding:14px; gap:10px; }
   .item { padding:11px 14px; }
+  .site-footer { padding:28px 16px 20px; }
+  .footer-links { gap:8px 16px; }
 }
 </style>
 </head>
@@ -296,10 +386,22 @@ body {
 <!-- HEADER -->
 <header class="header">
   <div class="header-brand">
-    <div class="header-logo">🛒</div>
+    <div class="header-logo">
+      <img
+        src="https://marcaseleta.com.br/wp-content/uploads/2025/11/marca-seleta-by-anytools.png"
+        alt="Marca Seleta"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+      >
+      <!-- fallback se a imagem não carregar -->
+      <div style="display:none;align-items:center;justify-content:center;
+                  width:40px;height:40px;background:var(--seleta-blue);
+                  border-radius:10px;font-size:18px;font-weight:800;
+                  color:#fff;letter-spacing:-1px">MS</div>
+    </div>
+    <div class="header-divider"></div>
     <div class="header-text">
-      <h1>Primeiros Passos — Seller</h1>
-      <p>Seleta · Guia do Vendedor</p>
+      <h1>Checklist — Primeiros Passos</h1>
+      <p>Guia do Vendedor · Full Commerce</p>
     </div>
   </div>
   <div class="header-progress-wrap">
@@ -939,6 +1041,52 @@ body {
 <!-- ════════════════════════════════════════
      JAVASCRIPT
 ════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════
+     FOOTER MARCA SELETA
+════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+
+    <img
+      class="footer-logo"
+      src="https://marcaseleta.com.br/wp-content/uploads/2025/11/marca-seleta-by-anytools.png"
+      alt="Marca Seleta"
+      onerror="this.style.display='none'"
+    >
+
+    <p class="footer-tagline">
+      <strong>Da estratégia à execução</strong>, a Marca Seleta tem o time de full commerce
+      ideal para quem deseja vender mais e ser especialista nos principais marketplaces do país.
+    </p>
+
+    <nav class="footer-links">
+      <a href="https://marcaseleta.com.br" target="_blank" rel="noopener">marcaseleta.com.br</a>
+      <span class="footer-sep"></span>
+      <a href="https://marcaseleta.com.br/servicos/" target="_blank" rel="noopener">Serviços</a>
+      <span class="footer-sep"></span>
+      <a href="https://marcaseleta.com.br/diagnostico-gratuito/" target="_blank" rel="noopener">Diagnóstico Gratuito</a>
+      <span class="footer-sep"></span>
+      <a href="mailto:contato@marcaseleta.com.br">contato@marcaseleta.com.br</a>
+    </nav>
+
+    <div class="footer-bottom">
+      <div>Checklist criado pela equipe Marca Seleta &middot; &copy; 2026</div>
+      <div style="margin-top:8px">
+        <span>Uma marca </span>
+        <a href="https://db1group.com" target="_blank" rel="noopener">
+          <img
+            src="https://marcaseleta.com.br/wp-content/uploads/2025/09/db1group.svg"
+            alt="DB1 Group"
+            style="height:14px;vertical-align:middle;margin-left:4px;opacity:.55;filter:brightness(3) grayscale(.2)"
+            onerror="this.outerHTML='<strong style=\'color:var(--w50)\'>DB1 Group</strong>'"
+          >
+        </a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
 <script>
 const TOTALS = {
   ml:     { 'ml-phase-1':5, 'ml-phase-2':6, 'ml-phase-3':6, 'ml-phase-4':9 },
