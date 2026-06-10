@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist Primeiros Passos | SELETA</title>
+<style>
+/* ─── TOKENS ─────────────────────────────────────────────────── */
+:root {
+  --navy-deep:   #091530;
+  --navy-dark:   #0D1B3E;
+  --navy-mid:    #162D5C;
+  --navy-light:  #253870;
+  --blue-accent: #4A82D0;
+  --blue-light:  #5B7EC5;
+  --cyan:        #5BC8F5;
+  --green:       #2DBD7E;
+  --green-dk:    #00B050;
+  --yellow:      #FFC300;
+  --red:         #E05A5A;
+  --orange:      #FF6B35;
+  --white:       #FFFFFF;
+  --w80:         rgba(255,255,255,0.80);
+  --w50:         rgba(255,255,255,0.50);
+  --w20:         rgba(255,255,255,0.13);
+  --w10:         rgba(255,255,255,0.07);
+  --r:           14px;
+  --rs:          8px;
+
+  /* marketplace accent — overridden by JS */
+  --mk-color:    #5BC8F5;
+  --mk-dark:     #3AA8D5;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--navy-deep);
+  color: var(--white);
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* ─── HEADER ─────────────────────────────────────────────────── */
+.header {
+  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-mid) 100%);
+  border-bottom: 2px solid var(--cyan);
+  padding: 22px 40px 18px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.header-brand { display:flex; align-items:center; gap:12px; }
+.header-logo {
+  width:42px; height:42px; background:var(--cyan);
+  border-radius:10px; display:flex; align-items:center;
+  justify-content:center; font-size:20px; flex-shrink:0;
+}
+.header-text h1 { font-size:18px; font-weight:700; letter-spacing:-0.3px; }
+.header-text p  { font-size:11px; color:var(--cyan); font-weight:500; letter-spacing:0.8px; text-transform:uppercase; margin-top:2px; }
+
+.header-progress-wrap { flex:1; min-width:200px; }
+.progress-labels { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:7px; }
+.progress-label  { font-size:11px; color:var(--w80); font-weight:500; text-transform:uppercase; letter-spacing:0.6px; }
+.progress-pct    { font-size:20px; font-weight:800; color:var(--mk-color); transition:color .3s; }
+.progress-track  { height:7px; background:var(--w20); border-radius:999px; overflow:hidden; }
+.progress-fill   { height:100%; background:linear-gradient(90deg,var(--blue-accent),var(--mk-color)); border-radius:999px; transition:width .5s cubic-bezier(.4,0,.2,1),background .3s; width:0; }
+
+/* ─── CELEBRATION ────────────────────────────────────────────── */
+.celebration {
+  display:none; background:linear-gradient(135deg,var(--green-dk),var(--green));
+  padding:16px 40px; text-align:center; font-size:15px; font-weight:700;
+}
+.celebration.visible{display:block}
+
+/* ─── MARKETPLACE SWITCHER ───────────────────────────────────── */
+.mk-switcher {
+  display:flex; gap:12px; padding:28px 40px 0; flex-wrap:wrap;
+}
+
+.mk-btn {
+  display:flex; align-items:center; gap:10px;
+  padding:14px 24px; border-radius:var(--r); cursor:pointer;
+  border:2px solid var(--w20); background:var(--w10);
+  transition:all .25s; flex:1; min-width:180px; max-width:280px;
+}
+.mk-btn:hover { border-color:var(--w50); background:var(--w20); }
+.mk-btn.active { border-color:var(--mk-color); background:rgba(91,200,245,0.10); }
+.mk-btn.active.shopee { border-color:#FF6130; background:rgba(255,97,48,0.10); }
+
+.mk-btn-logo {
+  width:40px; height:40px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; flex-shrink:0; background:var(--w20);
+  transition:background .25s;
+}
+.mk-btn.active     .mk-btn-logo { background:rgba(91,200,245,0.25); }
+.mk-btn.active.shopee .mk-btn-logo { background:rgba(255,97,48,0.25); }
+
+.mk-btn-text strong { font-size:14px; font-weight:700; display:block; }
+.mk-btn-text span   { font-size:11px; color:var(--w50); }
+.mk-btn.active     .mk-btn-text strong { color:var(--cyan); }
+.mk-btn.active.shopee .mk-btn-text strong { color:#FF6130; }
+
+/* ─── MAIN CONTAINER ─────────────────────────────────────────── */
+.container { max-width:860px; margin:0 auto; padding:32px 24px 0; }
+
+/* ─── MARKETPLACE PANEL ──────────────────────────────────────── */
+.mk-panel { display:none; }
+.mk-panel.active { display:block; }
+
+/* ─── INTRO ──────────────────────────────────────────────────── */
+.intro {
+  background:var(--w10); border:1px solid var(--w20);
+  border-radius:var(--r); padding:20px 24px; margin-bottom:28px;
+  display:flex; gap:14px; align-items:flex-start;
+}
+.intro-icon { font-size:26px; flex-shrink:0; margin-top:2px; }
+.intro h2   { font-size:15px; font-weight:700; margin-bottom:4px; }
+.intro p    { font-size:13px; color:var(--w80); line-height:1.6; }
+
+/* ─── PHASE ──────────────────────────────────────────────────── */
+.phase {
+  margin-bottom:22px; border-radius:var(--r);
+  overflow:hidden; border:1px solid var(--w20);
+  transition:box-shadow .3s;
+}
+.phase:hover { box-shadow:0 6px 24px rgba(91,200,245,0.09); }
+.phase.done  { border-color:var(--green); }
+.phase.done .phase-header { background:linear-gradient(135deg,#0B3D25,#0F5034); }
+
+.phase-header {
+  display:flex; align-items:center; gap:14px; padding:18px 22px;
+  cursor:pointer; background:linear-gradient(135deg,var(--navy-mid),var(--navy-light));
+  user-select:none; transition:background .3s;
+}
+.phase-header:hover { filter:brightness(1.08); }
+
+.phase-num {
+  width:34px; height:34px; border-radius:50%;
+  background:var(--mk-color); color:var(--navy-deep);
+  font-weight:800; font-size:14px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:background .3s;
+}
+.phase.done .phase-num { background:var(--green); }
+
+.phase-icon   { font-size:24px; flex-shrink:0; }
+.phase-info   { flex:1; }
+.phase-title  { font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+
+.phase-badge {
+  font-size:9px; font-weight:600; letter-spacing:0.8px;
+  text-transform:uppercase; padding:3px 8px; border-radius:999px;
+  background:var(--w20); color:var(--mk-color);
+}
+.phase.done .phase-badge { background:var(--green); color:#fff; }
+
+.phase-sub    { font-size:11px; color:var(--w50); margin-top:2px; }
+.phase-count  { font-size:12px; color:var(--mk-color); font-weight:700; white-space:nowrap; }
+.phase.done .phase-count { color:var(--green); }
+
+.phase-chevron { font-size:13px; color:var(--w50); transition:transform .25s; margin-left:6px; }
+.phase.collapsed .phase-chevron { transform:rotate(-90deg); }
+
+.phase-body {
+  background:var(--w10); overflow:hidden;
+  transition:max-height .4s cubic-bezier(.4,0,.2,1);
+  max-height:3000px;
+}
+.phase.collapsed .phase-body { max-height:0; }
+
+.phase-pbar  { height:3px; background:var(--w20); }
+.phase-pfill {
+  height:100%;
+  background:linear-gradient(90deg,var(--blue-accent),var(--mk-color));
+  transition:width .5s cubic-bezier(.4,0,.2,1),background .3s;
+  width:0;
+}
+.phase.done .phase-pfill { background:var(--green); }
+
+.items-list { padding:6px 0 14px; }
+
+/* ─── ITEMS ──────────────────────────────────────────────────── */
+.item {
+  display:flex; align-items:flex-start; gap:12px;
+  padding:13px 22px; cursor:pointer; transition:background .2s;
+  border-bottom:1px solid var(--w10);
+}
+.item:last-child { border-bottom:none; }
+.item:hover { background:var(--w20); }
+
+.item-cb {
+  width:21px; height:21px; border:2px solid var(--blue-light);
+  border-radius:6px; flex-shrink:0; margin-top:1px;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s; background:transparent;
+}
+.item.checked .item-cb { background:var(--green); border-color:var(--green); }
+.item-cb::after {
+  content:''; width:6px; height:10px;
+  border-right:2.5px solid #fff; border-bottom:2.5px solid #fff;
+  transform:rotate(45deg) translateY(-1px); opacity:0; transition:opacity .2s;
+}
+.item.checked .item-cb::after { opacity:1; }
+
+.item-ico { font-size:19px; flex-shrink:0; margin-top:1px; transition:opacity .2s; }
+.item.checked .item-ico { opacity:.5; }
+
+.item-content { flex:1; }
+.item-label   { font-size:14px; font-weight:600; line-height:1.3; transition:all .2s; }
+.item.checked .item-label { text-decoration:line-through; color:rgba(255,255,255,.38); }
+.item-desc    { font-size:12px; color:rgba(255,255,255,.52); margin-top:3px; line-height:1.5; }
+.item.checked .item-desc  { color:rgba(255,255,255,.25); }
+
+.tip {
+  display:inline-block; margin-top:5px; font-size:11px;
+  background:rgba(255,195,0,.10); border:1px solid rgba(255,195,0,.28);
+  color:var(--yellow); padding:3px 8px; border-radius:6px; line-height:1.4;
+}
+.warn {
+  display:inline-block; margin-top:5px; font-size:11px;
+  background:rgba(224,90,90,.10); border:1px solid rgba(224,90,90,.28);
+  color:var(--red); padding:3px 8px; border-radius:6px; line-height:1.4;
+}
+
+/* ─── PHASE DONE MSG ─────────────────────────────────────────── */
+.phase-done-msg {
+  display:none; margin:6px 22px 14px;
+  background:rgba(45,189,126,.10); border:1px solid rgba(45,189,126,.32);
+  border-radius:var(--rs); padding:10px 14px;
+  font-size:12px; font-weight:600; color:var(--green); text-align:center;
+}
+.phase.done .phase-done-msg { display:block; }
+
+/* ─── SUMMARY ────────────────────────────────────────────────── */
+.summary {
+  background:var(--w10); border:1px solid var(--w20);
+  border-radius:var(--r); padding:22px 24px; margin-top:8px;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:18px;
+}
+.stat { text-align:center; }
+.stat-val   { font-size:30px; font-weight:800; color:var(--mk-color); line-height:1; transition:all .3s; }
+.stat-label { font-size:10px; color:var(--w80); text-transform:uppercase; letter-spacing:0.6px; margin-top:3px; font-weight:500; }
+
+/* ─── RESET ──────────────────────────────────────────────────── */
+.reset-btn {
+  display:block; margin:22px auto 0;
+  padding:10px 24px; background:transparent;
+  border:1.5px solid var(--w20); border-radius:var(--rs);
+  color:var(--w80); font-size:12px; font-weight:600;
+  cursor:pointer; letter-spacing:0.4px; transition:all .2s;
+}
+.reset-btn:hover { border-color:var(--red); color:var(--red); }
+
+/* ─── PRINT ──────────────────────────────────────────────────── */
+@media print {
+  body { background:#fff; color:#000; }
+  .header { background:#0D1B3E!important; position:relative; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .mk-switcher { display:none!important; }
+  .mk-panel { display:block!important; }
+  .celebration,.reset-btn { display:none!important; }
+  .phase { break-inside:avoid; border:1.5px solid #253870; }
+  .phase-header { background:#162D5C!important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .phase-body { max-height:none!important; }
+  .phase.collapsed .phase-body { max-height:none!important; }
+  .item-cb { border:2px solid #253870!important; width:18px; height:18px; border-radius:4px; background:#fff!important; }
+  .item.checked .item-cb { background:#2DBD7E!important; border-color:#2DBD7E!important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .item-label { color:#000!important; }
+  .item-desc  { color:#555!important; }
+  .item.checked .item-label { color:#888!important; }
+  .phase-pbar,.phase-chevron { display:none; }
+  .summary { break-inside:avoid; border:1.5px solid #253870; }
+  .stat-val   { color:#0D1B3E!important; }
+  .stat-label { color:#555!important; }
+}
+
+@media (max-width:600px) {
+  .header { padding:16px; }
+  .mk-switcher { padding:20px 12px 0; gap:8px; }
+  .mk-btn { min-width:140px; padding:12px 14px; }
+  .container { padding:20px 12px 0; }
+  .phase-header { padding:14px; gap:10px; }
+  .item { padding:11px 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-brand">
+    <div class="header-logo">🛒</div>
+    <div class="header-text">
+      <h1>Primeiros Passos — Seller</h1>
+      <p>Seleta · Guia do Vendedor</p>
+    </div>
+  </div>
+  <div class="header-progress-wrap">
+    <div class="progress-labels">
+      <span class="progress-label">Progresso Geral</span>
+      <span class="progress-pct" id="gPct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="gFill"></div></div>
+  </div>
+</header>
+
+<div class="celebration" id="celebration">
+  🎉 Parabéns! Você completou todas as etapas e está pronto para vender!
+</div>
+
+<!-- MARKETPLACE SWITCHER -->
+<div class="mk-switcher">
+  <div class="mk-btn active" id="btn-ml" onclick="switchMk('ml')">
+    <div class="mk-btn-logo">🟡</div>
+    <div class="mk-btn-text">
+      <strong>Mercado Livre</strong>
+      <span id="ml-prog-label">0% concluído</span>
+    </div>
+  </div>
+  <div class="mk-btn shopee" id="btn-shopee" onclick="switchMk('shopee')">
+    <div class="mk-btn-logo">🟠</div>
+    <div class="mk-btn-text">
+      <strong>Shopee</strong>
+      <span id="shopee-prog-label">0% concluído</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAINEL MERCADO LIVRE
+════════════════════════════════════════ -->
+<div class="mk-panel active" id="panel-ml">
+<main class="container">
+
+  <div class="intro">
+    <div class="intro-icon">📋</div>
+    <div>
+      <h2>Mercado Livre — Guia de Primeiros Passos</h2>
+      <p>Siga as 4 fases em ordem. Clique em cada item para marcar como concluído. O progresso é salvo automaticamente.</p>
+    </div>
+  </div>
+
+  <!-- FASE 1 -->
+  <div class="phase" id="ml-phase-1">
+    <div class="phase-header" onclick="togglePhase('ml-phase-1')">
+      <div class="phase-num">1</div>
+      <div class="phase-icon">📁</div>
+      <div class="phase-info">
+        <div class="phase-title">Preparação Documental <span class="phase-badge">INÍCIO</span></div>
+        <div class="phase-sub">Documentos obrigatórios antes de criar a conta</div>
+      </div>
+      <span class="phase-count" id="ml-phase-1-c">0/5</span>
+      <span class="phase-chevron">▾</span>
+    </div>
+    <div class="phase-body">
+      <div class="phase-pbar"><div class="phase-pfill" id="ml-phase-1-f"></div></div>
+      <ul class="items-list">
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-1">
+          <div class="item-cb"></div><div class="item-ico">🏢</div>
+          <div class="item-content">
+            <div class="item-label">CNPJ Ativo</div>
+            <div class="item-desc">Empresa regularizada na Receita Federal, situação "Ativa".</div>
+            <span class="tip">💡 Consulte em receita.economia.gov.br</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-1">
+          <div class="item-cb"></div><div class="item-ico">🔏</div>
+          <div class="item-content">
+            <div class="item-label">Certificado Digital A1</div>
+            <div class="item-desc">Necessário para assinatura de NF-e e autenticação no Mercado Pago.</div>
+            <span class="tip">💡 Emitido por Certisign, Serasa, Valid etc.</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-1">
+          <div class="item-cb"></div><div class="item-ico">🗂️</div>
+          <div class="item-content">
+            <div class="item-label">Inscrição Estadual</div>
+            <div class="item-desc">Registro na SEFAZ do estado. Obrigatório para emissão de NF-e.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-1">
+          <div class="item-cb"></div><div class="item-ico">📄</div>
+          <div class="item-content">
+            <div class="item-label">Contrato Social / Requerimento / CCMEI</div>
+            <div class="item-desc">Documento constitutivo da empresa (MEI usa CCMEI; Ltda usa Contrato Social).</div>
+            <span class="tip">💡 CCMEI disponível no Portal do Empreendedor</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-1">
+          <div class="item-cb"></div><div class="item-ico">🪪</div>
+          <div class="item-content">
+            <div class="item-label">Documento de Identidade do Responsável</div>
+            <div class="item-desc">RG ou CNH do sócio-administrador, legível e dentro da validade.</div>
+          </div>
+        </li>
+      </ul>
+      <div class="phase-done-msg">✅ Fase 1 concluída! Documentação completa.</div>
+    </div>
+  </div>
+
+  <!-- FASE 2 -->
+  <div class="phase" id="ml-phase-2">
+    <div class="phase-header" onclick="togglePhase('ml-phase-2')">
+      <div class="phase-num">2</div>
+      <div class="phase-icon">💻</div>
+      <div class="phase-info">
+        <div class="phase-title">Criação de Conta <span class="phase-badge">CADASTRO</span></div>
+        <div class="phase-sub">Crie e ative sua conta PJ no Mercado Livre</div>
+      </div>
+      <span class="phase-count" id="ml-phase-2-c">0/6</span>
+      <span class="phase-chevron">▾</span>
+    </div>
+    <div class="phase-body">
+      <div class="phase-pbar"><div class="phase-pfill" id="ml-phase-2-f"></div></div>
+      <ul class="items-list">
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-2">
+          <div class="item-cb"></div><div class="item-ico">🌐</div>
+          <div class="item-content">
+            <div class="item-label">Acessar mercadolivre.com.br</div>
+            <div class="item-desc">Clique em "Criar conta" no canto superior direito.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-2">
+          <div class="item-cb"></div><div class="item-ico">🏷️</div>
+          <div class="item-content">
+            <div class="item-label">Escolher "Conta Empresa" (Pessoa Jurídica)</div>
+            <div class="item-desc">Selecione PJ para ter acesso a funcionalidades de vendedor profissional.</div>
+            <span class="warn">⚠️ Conta PF limita volume de vendas e emissão de NF-e</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-2">
+          <div class="item-cb"></div><div class="item-ico">📝</div>
+          <div class="item-content">
+            <div class="item-label">Preencher dados da empresa (CNPJ e razão social)</div>
+            <div class="item-desc">Use os dados exatamente como constam no cartão CNPJ.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-2">
+          <div class="item-cb"></div><div class="item-ico">📧</div>
+          <div class="item-content">
+            <div class="item-label">Confirmar e-mail cadastrado</div>
+            <div class="item-desc">Acesse o e-mail e clique no link de verificação enviado pelo ML.</div>
+            <span class="tip">💡 Use e-mail corporativo dedicado — não e-mail pessoal</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-2">
+          <div class="item-cb"></div><div class="item-ico">📱</div>
+          <div class="item-content">
+            <div class="item-label">Validar número de telefone</div>
+            <div class="item-desc">Confirme o SMS de verificação enviado ao celular cadastrado.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-2">
+          <div class="item-cb"></div><div class="item-ico">🔑</div>
+          <div class="item-content">
+            <div class="item-label">Configurar senha segura e 2FA</div>
+            <div class="item-desc">Mínimo 8 caracteres com letras, números e símbolos. Ative verificação em duas etapas.</div>
+          </div>
+        </li>
+      </ul>
+      <div class="phase-done-msg">✅ Fase 2 concluída! Conta criada com sucesso.</div>
+    </div>
+  </div>
+
+  <!-- FASE 3 -->
+  <div class="phase" id="ml-phase-3">
+    <div class="phase-header" onclick="togglePhase('ml-phase-3')">
+      <div class="phase-num">3</div>
+      <div class="phase-icon">⚙️</div>
+      <div class="phase-info">
+        <div class="phase-title">Configuração de Perfil <span class="phase-badge">SETUP</span></div>
+        <div class="phase-sub">Configure a conta para operar com profissionalismo</div>
+      </div>
+      <span class="phase-count" id="ml-phase-3-c">0/6</span>
+      <span class="phase-chevron">▾</span>
+    </div>
+    <div class="phase-body">
+      <div class="phase-pbar"><div class="phase-pfill" id="ml-phase-3-f"></div></div>
+      <ul class="items-list">
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-3">
+          <div class="item-cb"></div><div class="item-ico">🖼️</div>
+          <div class="item-content">
+            <div class="item-label">Upload da foto / logotipo de perfil</div>
+            <div class="item-desc">Imagem quadrada mínimo 200×200px. Logo em fundo branco para máxima credibilidade.</div>
+            <span class="tip">💡 Perfis com foto convertem até 30% mais</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-3">
+          <div class="item-cb"></div><div class="item-ico">📞</div>
+          <div class="item-content">
+            <div class="item-label">Adicionar telefone comercial / WhatsApp</div>
+            <div class="item-desc">Canal de atendimento para respostas ágeis a perguntas e reclamações.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-3">
+          <div class="item-cb"></div><div class="item-ico">💳</div>
+          <div class="item-content">
+            <div class="item-label">Vincular e configurar Mercado Pago</div>
+            <div class="item-desc">Informe dados bancários em Minha Conta → Dinheiro → Mercado Pago.</div>
+            <span class="warn">⚠️ Sem Mercado Pago configurado, saques ficam bloqueados</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-3">
+          <div class="item-cb"></div><div class="item-ico">📦</div>
+          <div class="item-content">
+            <div class="item-label">Ativar Mercado Envios</div>
+            <div class="item-desc">Fretes subsidiados e maior visibilidade. ME Full disponível após critérios mínimos de reputação.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-3">
+          <div class="item-cb"></div><div class="item-ico">🏭</div>
+          <div class="item-content">
+            <div class="item-label">Cadastrar endereço de despacho</div>
+            <div class="item-desc">Endereço correto do estoque para cálculo de frete e coleta pelo transportador.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-3">
+          <div class="item-cb"></div><div class="item-ico">📋</div>
+          <div class="item-content">
+            <div class="item-label">Configurar política de devolução</div>
+            <div class="item-desc">Defina prazo de devolução (mínimo 30 dias). Políticas claras reduzem mediações.</div>
+            <span class="tip">💡 90 dias melhora o ranqueamento orgânico</span>
+          </div>
+        </li>
+      </ul>
+      <div class="phase-done-msg">✅ Fase 3 concluída! Perfil configurado.</div>
+    </div>
+  </div>
+
+  <!-- FASE 4 -->
+  <div class="phase" id="ml-phase-4">
+    <div class="phase-header" onclick="togglePhase('ml-phase-4')">
+      <div class="phase-num">4</div>
+      <div class="phase-icon">🚀</div>
+      <div class="phase-info">
+        <div class="phase-title">Primeiro Anúncio <span class="phase-badge">GO LIVE</span></div>
+        <div class="phase-sub">Publique seu primeiro anúncio blindado e ranqueável</div>
+      </div>
+      <span class="phase-count" id="ml-phase-4-c">0/9</span>
+      <span class="phase-chevron">▾</span>
+    </div>
+    <div class="phase-body">
+      <div class="phase-pbar"><div class="phase-pfill" id="ml-phase-4-f"></div></div>
+      <ul class="items-list">
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-4">
+          <div class="item-cb"></div><div class="item-ico">🗃️</div>
+          <div class="item-content">
+            <div class="item-label">Selecionar categoria correta</div>
+            <div class="item-desc">Escolha a mais específica possível. Categoria errada = invisibilidade no algoritmo.</div>
+            <span class="warn">⚠️ Nunca use "Outros"</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-4">
+          <div class="item-cb"></div><div class="item-ico">✍️</div>
+          <div class="item-content">
+            <div class="item-label">Criar título otimizado (SEO Marketplace)</div>
+            <div class="item-desc">Estrutura: Tipo + Marca + Modelo + Atributo + Quantidade. Até 60 caracteres.</div>
+            <span class="tip">💡 Ex: "Pneu 205/55 R16 Continental PremiumContact — 1 Un."</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-4">
+          <div class="item-cb"></div><div class="item-ico">📝</div>
+          <div class="item-content">
+            <div class="item-label">Redigir descrição completa (mín. 300 palavras)</div>
+            <div class="item-desc">Benefícios, compatibilidade, dimensões, garantia, diferenciais e instrução de uso.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-4">
+          <div class="item-cb"></div><div class="item-ico">🖼️</div>
+          <div class="item-content">
+            <div class="item-label">Upload de imagens (mínimo 6)</div>
+            <div class="item-desc">1200×1200px mínimo, fundo branco na principal. Inclua ângulos, detalhes e aplicação.</div>
+            <span class="warn">⚠️ Proibido marca d'água, texto ou bordas</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-4">
+          <div class="item-cb"></div><div class="item-ico">💰</div>
+          <div class="item-content">
+            <div class="item-label">Definir preço com margem calculada</div>
+            <div class="item-desc">Custo + comissão ML + frete + impostos + margem. Mínimo 15% de margem líquida.</div>
+            <span class="tip">💡 Use a calculadora de custos do Seller Center</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-4">
+          <div class="item-cb"></div><div class="item-ico">⭐</div>
+          <div class="item-content">
+            <div class="item-label">Escolher tipo de anúncio (Clássico ou Premium)</div>
+            <div class="item-desc">Clássico = comissão menor. Premium = parcelamento sem acréscimo e destaque nos resultados.</div>
+            <span class="tip">💡 Inicie com Clássico, migre para Premium após as primeiras avaliações</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-4">
+          <div class="item-cb"></div><div class="item-ico">🚚</div>
+          <div class="item-content">
+            <div class="item-label">Configurar modalidade de frete</div>
+            <div class="item-desc">Ative Mercado Envios. Calcule se vale frete grátis (absorver no preço). Defina prazo de manuseio realista.</div>
+            <span class="warn">⚠️ Atraso no envio é a principal causa de queda de reputação</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-4">
+          <div class="item-cb"></div><div class="item-ico">📊</div>
+          <div class="item-content">
+            <div class="item-label">Preencher ficha técnica completa</div>
+            <div class="item-desc">Todos os atributos da categoria: marca, modelo, EAN/GTIN, cor, dimensões, peso, garantia.</div>
+            <span class="tip">💡 EAN correto aparece em buscas por código de barras</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="ml" data-phase="ml-phase-4">
+          <div class="item-cb"></div><div class="item-ico">✅</div>
+          <div class="item-content">
+            <div class="item-label">Revisar e publicar o anúncio</div>
+            <div class="item-desc">Confira título, imagens, preço, estoque e condição. Monitore nas primeiras 48h.</div>
+            <span class="tip">🎯 Acompanhe: impressões, visitas e conversão no Seller Central</span>
+          </div>
+        </li>
+      </ul>
+      <div class="phase-done-msg">🚀 Fase 4 concluída! Você está vendendo no Mercado Livre!</div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="stat"><div class="stat-val" id="ml-done">0</div><div class="stat-label">Concluídos</div></div>
+    <div class="stat"><div class="stat-val" id="ml-left" style="color:var(--yellow)">26</div><div class="stat-label">Restantes</div></div>
+    <div class="stat"><div class="stat-val" id="ml-phases" style="color:var(--green)">0/4</div><div class="stat-label">Fases OK</div></div>
+    <div class="stat"><div class="stat-val" id="ml-pct">0%</div><div class="stat-label">Progresso</div></div>
+  </div>
+  <button class="reset-btn" onclick="resetMk('ml')">↺ Reiniciar Mercado Livre</button>
+</main>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAINEL SHOPEE
+════════════════════════════════════════ -->
+<div class="mk-panel" id="panel-shopee">
+<main class="container">
+
+  <div class="intro">
+    <div class="intro-icon">🟠</div>
+    <div>
+      <h2>Shopee — Guia de Primeiros Passos</h2>
+      <p>Siga as 4 fases em ordem. Clique em cada item para marcar como concluído. O progresso é salvo automaticamente.</p>
+    </div>
+  </div>
+
+  <!-- SHOPEE FASE 1 -->
+  <div class="phase" id="shopee-phase-1">
+    <div class="phase-header" onclick="togglePhase('shopee-phase-1')">
+      <div class="phase-num">1</div>
+      <div class="phase-icon">📁</div>
+      <div class="phase-info">
+        <div class="phase-title">Preparação Documental <span class="phase-badge">INÍCIO</span></div>
+        <div class="phase-sub">Documentos obrigatórios para criar conta vendedor Shopee</div>
+      </div>
+      <span class="phase-count" id="shopee-phase-1-c">0/5</span>
+      <span class="phase-chevron">▾</span>
+    </div>
+    <div class="phase-body">
+      <div class="phase-pbar"><div class="phase-pfill" id="shopee-phase-1-f"></div></div>
+      <ul class="items-list">
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-1">
+          <div class="item-cb"></div><div class="item-ico">🏢</div>
+          <div class="item-content">
+            <div class="item-label">CNPJ Ativo</div>
+            <div class="item-desc">Situação "Ativa" na Receita Federal. A Shopee aceita MEI, ME e EPP.</div>
+            <span class="tip">💡 MEI tem processo simplificado — ideal para começar</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-1">
+          <div class="item-cb"></div><div class="item-ico">🪪</div>
+          <div class="item-content">
+            <div class="item-label">Documento de Identidade do Responsável (RG/CNH)</div>
+            <div class="item-desc">Do sócio-administrador ou responsável legal da conta. Deve estar legível.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-1">
+          <div class="item-cb"></div><div class="item-ico">📄</div>
+          <div class="item-content">
+            <div class="item-label">Contrato Social / CCMEI</div>
+            <div class="item-desc">Documento constitutivo da empresa para validação cadastral pela Shopee.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-1">
+          <div class="item-cb"></div><div class="item-ico">🏠</div>
+          <div class="item-content">
+            <div class="item-label">Comprovante de Endereço (empresa ou responsável)</div>
+            <div class="item-desc">Conta de luz, água ou telefone dos últimos 3 meses. Necessário para verificação KYC.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-1">
+          <div class="item-cb"></div><div class="item-ico">🏦</div>
+          <div class="item-content">
+            <div class="item-label">Dados bancários para recebimento</div>
+            <div class="item-desc">Conta PJ no mesmo CNPJ da loja ou conta PF do responsável. Necessário para configurar retiradas.</div>
+            <span class="tip">💡 Conta no mesmo banco = transferência mais rápida (D+1)</span>
+          </div>
+        </li>
+      </ul>
+      <div class="phase-done-msg">✅ Fase 1 concluída! Documentação completa.</div>
+    </div>
+  </div>
+
+  <!-- SHOPEE FASE 2 -->
+  <div class="phase" id="shopee-phase-2">
+    <div class="phase-header" onclick="togglePhase('shopee-phase-2')">
+      <div class="phase-num">2</div>
+      <div class="phase-icon">💻</div>
+      <div class="phase-info">
+        <div class="phase-title">Criação de Conta <span class="phase-badge">CADASTRO</span></div>
+        <div class="phase-sub">Crie sua conta seller no Seller Center da Shopee</div>
+      </div>
+      <span class="phase-count" id="shopee-phase-2-c">0/6</span>
+      <span class="phase-chevron">▾</span>
+    </div>
+    <div class="phase-body">
+      <div class="phase-pbar"><div class="phase-pfill" id="shopee-phase-2-f"></div></div>
+      <ul class="items-list">
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-2">
+          <div class="item-cb"></div><div class="item-ico">🌐</div>
+          <div class="item-content">
+            <div class="item-label">Acessar seller.shopee.com.br</div>
+            <div class="item-desc">Portal exclusivo para vendedores. Clique em "Registrar" para iniciar o cadastro.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-2">
+          <div class="item-cb"></div><div class="item-ico">📱</div>
+          <div class="item-content">
+            <div class="item-label">Cadastrar e verificar número de celular</div>
+            <div class="item-desc">O número de celular é o login principal na Shopee. Confirme o código SMS recebido.</div>
+            <span class="warn">⚠️ Use número que você tenha acesso sempre — é o login da conta</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-2">
+          <div class="item-cb"></div><div class="item-ico">📧</div>
+          <div class="item-content">
+            <div class="item-label">Vincular e verificar e-mail</div>
+            <div class="item-desc">E-mail corporativo dedicado. Confirme o link de ativação na caixa de entrada.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-2">
+          <div class="item-cb"></div><div class="item-ico">🏷️</div>
+          <div class="item-content">
+            <div class="item-label">Escolher nome da loja (Shop Name)</div>
+            <div class="item-desc">Nome público da sua loja. Escolha um nome profissional, relacionado à marca ou nicho.</div>
+            <span class="tip">💡 Nome da loja é permanente — escolha com cuidado</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-2">
+          <div class="item-cb"></div><div class="item-ico">📝</div>
+          <div class="item-content">
+            <div class="item-label">Preencher dados do CNPJ para verificação</div>
+            <div class="item-desc">Razão social, CNPJ e tipo de empresa. A Shopee valida os dados com a Receita Federal.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-2">
+          <div class="item-cb"></div><div class="item-ico">🔑</div>
+          <div class="item-content">
+            <div class="item-label">Configurar senha e habilitar 2FA</div>
+            <div class="item-desc">Senha forte + autenticação em duas etapas via app Shopee ou SMS.</div>
+          </div>
+        </li>
+      </ul>
+      <div class="phase-done-msg">✅ Fase 2 concluída! Conta criada com sucesso.</div>
+    </div>
+  </div>
+
+  <!-- SHOPEE FASE 3 -->
+  <div class="phase" id="shopee-phase-3">
+    <div class="phase-header" onclick="togglePhase('shopee-phase-3')">
+      <div class="phase-num">3</div>
+      <div class="phase-icon">⚙️</div>
+      <div class="phase-info">
+        <div class="phase-title">Configuração da Loja <span class="phase-badge">SETUP</span></div>
+        <div class="phase-sub">Configure a loja para vender com credibilidade</div>
+      </div>
+      <span class="phase-count" id="shopee-phase-3-c">0/7</span>
+      <span class="phase-chevron">▾</span>
+    </div>
+    <div class="phase-body">
+      <div class="phase-pbar"><div class="phase-pfill" id="shopee-phase-3-f"></div></div>
+      <ul class="items-list">
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-3">
+          <div class="item-cb"></div><div class="item-ico">🖼️</div>
+          <div class="item-content">
+            <div class="item-label">Upload do logo e banner da loja</div>
+            <div class="item-desc">Logo: 300×300px mínimo. Banner: 1200×400px. Imagens profissionais aumentam a taxa de conversão da vitrine.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-3">
+          <div class="item-cb"></div><div class="item-ico">📋</div>
+          <div class="item-content">
+            <div class="item-label">Redigir descrição da loja</div>
+            <div class="item-desc">Apresente o nicho, diferenciais e tipo de produto. Mínimo 100 caracteres. Use palavras-chave do seu segmento.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-3">
+          <div class="item-cb"></div><div class="item-ico">🏦</div>
+          <div class="item-content">
+            <div class="item-label">Configurar conta bancária para retiradas</div>
+            <div class="item-desc">Acesse Finanças → Conta Bancária. Vincule a conta para receber os repasses das vendas.</div>
+            <span class="warn">⚠️ Sem conta bancária, o saldo fica retido na plataforma</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-3">
+          <div class="item-cb"></div><div class="item-ico">📦</div>
+          <div class="item-content">
+            <div class="item-label">Ativar Shopee Envios e cadastrar endereço de origem</div>
+            <div class="item-desc">Configure o endereço de despacho (pickup) e habilite as transportadoras parceiras da Shopee.</div>
+            <span class="tip">💡 Shopee Envios garante rastreamento integrado e menor custo de frete</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-3">
+          <div class="item-cb"></div><div class="item-ico">⏱️</div>
+          <div class="item-content">
+            <div class="item-label">Definir horário de atendimento e tempo de preparo</div>
+            <div class="item-desc">Configure os dias úteis de operação e o prazo de manuseio do pedido (geralmente 1-2 dias).</div>
+            <span class="warn">⚠️ Atrasos no envio geram penalidades e queda no ranking da loja</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-3">
+          <div class="item-cb"></div><div class="item-ico">💬</div>
+          <div class="item-content">
+            <div class="item-label">Configurar respostas automáticas no chat</div>
+            <div class="item-desc">Defina mensagem de boas-vindas e resposta automática fora do horário de atendimento.</div>
+            <span class="tip">💡 Taxa de resposta acima de 85% em 24h melhora o ranqueamento da loja</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-3">
+          <div class="item-cb"></div><div class="item-ico">🎟️</div>
+          <div class="item-content">
+            <div class="item-label">Criar primeiro cupom de boas-vindas</div>
+            <div class="item-desc">Vá em Marketing → Cupons da Loja. Um cupom de desconto inicial atrai os primeiros compradores e gera avaliações.</div>
+            <span class="tip">💡 5-10% de desconto é o suficiente para ativar os primeiros pedidos</span>
+          </div>
+        </li>
+      </ul>
+      <div class="phase-done-msg">✅ Fase 3 concluída! Loja configurada e pronta.</div>
+    </div>
+  </div>
+
+  <!-- SHOPEE FASE 4 -->
+  <div class="phase" id="shopee-phase-4">
+    <div class="phase-header" onclick="togglePhase('shopee-phase-4')">
+      <div class="phase-num">4</div>
+      <div class="phase-icon">🚀</div>
+      <div class="phase-info">
+        <div class="phase-title">Primeiro Produto <span class="phase-badge">GO LIVE</span></div>
+        <div class="phase-sub">Publique seu primeiro produto otimizado para conversão</div>
+      </div>
+      <span class="phase-count" id="shopee-phase-4-c">0/8</span>
+      <span class="phase-chevron">▾</span>
+    </div>
+    <div class="phase-body">
+      <div class="phase-pbar"><div class="phase-pfill" id="shopee-phase-4-f"></div></div>
+      <ul class="items-list">
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-4">
+          <div class="item-cb"></div><div class="item-ico">🗃️</div>
+          <div class="item-content">
+            <div class="item-label">Selecionar categoria correta</div>
+            <div class="item-desc">Navegue pela árvore de categorias da Shopee até o nível mais específico.</div>
+            <span class="warn">⚠️ Categoria errada afeta a indexação no buscador interno</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-4">
+          <div class="item-cb"></div><div class="item-ico">✍️</div>
+          <div class="item-content">
+            <div class="item-label">Criar título com palavras-chave (máx. 120 caracteres)</div>
+            <div class="item-desc">Estrutura: Marca + Modelo + Tipo + Atributo + Uso. A Shopee permite títulos mais longos — use bem.</div>
+            <span class="tip">💡 Inclua variações de busca como modelo e compatibilidade no título</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-4">
+          <div class="item-cb"></div><div class="item-ico">🖼️</div>
+          <div class="item-content">
+            <div class="item-label">Upload de imagens (mínimo 3, ideal 9)</div>
+            <div class="item-desc">Formato quadrado 1:1, mínimo 500×500px. Principal: fundo branco. Inclua foto de uso, detalhe e embalagem.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-4">
+          <div class="item-cb"></div><div class="item-ico">📝</div>
+          <div class="item-content">
+            <div class="item-label">Escrever descrição detalhada com atributos</div>
+            <div class="item-desc">Use formatação (negrito, listas). Inclua especificações técnicas, compatibilidade e garantia.</div>
+            <span class="tip">💡 Shopee permite imagens na descrição — use infográficos do produto</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-4">
+          <div class="item-cb"></div><div class="item-ico">🎨</div>
+          <div class="item-content">
+            <div class="item-label">Configurar variações (cor, tamanho, modelo)</div>
+            <div class="item-desc">Se o produto tem variações, cadastre todas com preço, estoque e foto individual por variação.</div>
+            <span class="tip">💡 Variações no mesmo anúncio concentram as avaliações e aumentam a relevância</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-4">
+          <div class="item-cb"></div><div class="item-ico">💰</div>
+          <div class="item-content">
+            <div class="item-label">Definir preço e margem calculada</div>
+            <div class="item-desc">Custo + comissão Shopee (por categoria, em média 8-12%) + frete + impostos + margem mínima 12%.</div>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-4">
+          <div class="item-cb"></div><div class="item-ico">🚚</div>
+          <div class="item-content">
+            <div class="item-label">Configurar opções de frete e peso/dimensão</div>
+            <div class="item-desc">Informe peso e dimensões corretos do produto embalado. Ative todas as transportadoras elegíveis.</div>
+            <span class="warn">⚠️ Peso incorreto gera cobrança retroativa e pode bloquear a loja</span>
+          </div>
+        </li>
+        <li class="item" onclick="toggle(this)" data-mk="shopee" data-phase="shopee-phase-4">
+          <div class="item-cb"></div><div class="item-ico">✅</div>
+          <div class="item-content">
+            <div class="item-label">Revisar e publicar o produto</div>
+            <div class="item-desc">Confira título, imagens, preço, estoque e variações. Publique e monitore as primeiras 48h.</div>
+            <span class="tip">🎯 Acompanhe: impressões, cliques e taxa de conversão no Seller Center</span>
+          </div>
+        </li>
+      </ul>
+      <div class="phase-done-msg">🚀 Fase 4 concluída! Você está vendendo na Shopee!</div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="stat"><div class="stat-val" id="shopee-done">0</div><div class="stat-label">Concluídos</div></div>
+    <div class="stat"><div class="stat-val" id="shopee-left" style="color:var(--yellow)">26</div><div class="stat-label">Restantes</div></div>
+    <div class="stat"><div class="stat-val" id="shopee-phases" style="color:var(--green)">0/4</div><div class="stat-label">Fases OK</div></div>
+    <div class="stat"><div class="stat-val" id="shopee-pct">0%</div><div class="stat-label">Progresso</div></div>
+  </div>
+  <button class="reset-btn" onclick="resetMk('shopee')">↺ Reiniciar Shopee</button>
+</main>
+</div>
+
+<!-- ════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
+<script>
+const TOTALS = {
+  ml:     { 'ml-phase-1':5, 'ml-phase-2':6, 'ml-phase-3':6, 'ml-phase-4':9 },
+  shopee: { 'shopee-phase-1':5, 'shopee-phase-2':6, 'shopee-phase-3':7, 'shopee-phase-4':8 }
+};
+const MK_TOTAL = { ml: 26, shopee: 26 };
+
+let currentMk = 'ml';
+
+/* ─── MARKETPLACE SWITCH ─────── */
+function switchMk(mk) {
+  currentMk = mk;
+  document.querySelectorAll('.mk-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.mk-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('btn-'   + mk).classList.add('active');
+  document.getElementById('panel-' + mk).classList.add('active');
+
+  if (mk === 'shopee') {
+    document.documentElement.style.setProperty('--mk-color', '#FF6130');
+    document.documentElement.style.setProperty('--mk-dark',  '#D94E20');
+  } else {
+    document.documentElement.style.setProperty('--mk-color', '#5BC8F5');
+    document.documentElement.style.setProperty('--mk-dark',  '#3AA8D5');
+  }
+  updateGlobal();
+}
+
+/* ─── TOGGLE PHASE ───────────── */
+function togglePhase(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('collapsed');
+  const col = JSON.parse(localStorage.getItem('sl-collapsed') || '{}');
+  col[id] = el.classList.contains('collapsed');
+  localStorage.setItem('sl-collapsed', JSON.stringify(col));
+}
+
+/* ─── TOGGLE ITEM ────────────── */
+function toggle(item) {
+  item.classList.toggle('checked');
+  const saved = JSON.parse(localStorage.getItem('sl-checks') || '{}');
+  saved[itemKey(item)] = item.classList.contains('checked');
+  localStorage.setItem('sl-checks', JSON.stringify(saved));
+  updateAll(item.dataset.mk);
+  updateGlobal();
+}
+
+function itemKey(item) {
+  return item.dataset.phase + '-' + [...item.parentElement.children].indexOf(item);
+}
+
+/* ─── UPDATE PHASE + MK ──────── */
+function updateAll(mk) {
+  const phases = TOTALS[mk];
+  let totalDone = 0, phasesDone = 0;
+
+  Object.entries(phases).forEach(([pid, ptotal]) => {
+    const phase = document.getElementById(pid);
+    const done  = phase.querySelectorAll('.item.checked').length;
+    const pct   = ptotal > 0 ? Math.round(done / ptotal * 100) : 0;
+
+    document.getElementById(pid + '-c').textContent = done + '/' + ptotal;
+    document.getElementById(pid + '-f').style.width = pct + '%';
+
+    if (done === ptotal) { phase.classList.add('done'); phasesDone++; }
+    else                 { phase.classList.remove('done'); }
+
+    totalDone += done;
+  });
+
+  const total  = MK_TOTAL[mk];
+  const gPct   = Math.round(totalDone / total * 100);
+  const suffix = mk === 'shopee' ? 'shopee' : 'ml';
+
+  document.getElementById(suffix + '-done').textContent   = totalDone;
+  document.getElementById(suffix + '-left').textContent   = total - totalDone;
+  document.getElementById(suffix + '-phases').textContent = phasesDone + '/4';
+  document.getElementById(suffix + '-pct').textContent    = gPct + '%';
+
+  // label no switcher
+  document.getElementById(mk + '-prog-label').textContent = gPct + '% concluído';
+
+  return { totalDone, total, gPct };
+}
+
+/* ─── GLOBAL BAR ─────────────── */
+function updateGlobal() {
+  const { totalDone: mlDone, total: mlTotal } = computeMk('ml');
+  const { totalDone: shDone, total: shTotal } = computeMk('shopee');
+  const combined = mlDone + shDone;
+  const combinedTotal = mlTotal + shTotal;
+  const pct = Math.round(combined / combinedTotal * 100);
+
+  document.getElementById('gPct').textContent   = pct + '%';
+  document.getElementById('gFill').style.width  = pct + '%';
+
+  // celebration only if CURRENT mk is 100%
+  const curData = currentMk === 'ml'
+    ? { done: mlDone, total: mlTotal }
+    : { done: shDone, total: shTotal };
+  const cel = document.getElementById('celebration');
+  if (curData.done === curData.total && curData.total > 0) cel.classList.add('visible');
+  else cel.classList.remove('visible');
+}
+
+function computeMk(mk) {
+  const phases = TOTALS[mk];
+  let totalDone = 0;
+  Object.keys(phases).forEach(pid => {
+    totalDone += document.getElementById(pid).querySelectorAll('.item.checked').length;
+  });
+  return { totalDone, total: MK_TOTAL[mk] };
+}
+
+/* ─── RESET ──────────────────── */
+function resetMk(mk) {
+  if (!confirm('Reiniciar checklist do ' + (mk === 'ml' ? 'Mercado Livre' : 'Shopee') + '?')) return;
+  const saved = JSON.parse(localStorage.getItem('sl-checks') || '{}');
+  document.querySelectorAll('[data-mk="' + mk + '"]').forEach(item => {
+    item.classList.remove('checked');
+    delete saved[itemKey(item)];
+  });
+  localStorage.setItem('sl-checks', JSON.stringify(saved));
+  updateAll(mk);
+  updateGlobal();
+}
+
+/* ─── RESTORE STATE ──────────── */
+(function restore() {
+  const checks   = JSON.parse(localStorage.getItem('sl-checks')    || '{}');
+  const collapsed = JSON.parse(localStorage.getItem('sl-collapsed') || '{}');
+
+  document.querySelectorAll('.item').forEach(item => {
+    if (checks[itemKey(item)]) item.classList.add('checked');
+  });
+
+  Object.entries(collapsed).forEach(([id, v]) => {
+    if (v) document.getElementById(id)?.classList.add('collapsed');
+  });
+
+  updateAll('ml');
+  updateAll('shopee');
+  updateGlobal();
+})();
+</script>
+</body>
+</html>
