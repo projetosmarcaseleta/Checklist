@@ -2,7 +2,11 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0A1428">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Checklist Primeiros Passos | Marca Seleta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,12 +50,16 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
+html { scroll-behavior: smooth; }
+
 body {
   font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
   background: var(--navy-deep);
   color: var(--white);
   min-height: 100vh;
   padding-bottom: 0;
+  overscroll-behavior-y: contain;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ─── HEADER ─────────────────────────────────────────────────── */
@@ -367,17 +375,111 @@ body {
   .stat-label { color:#555!important; }
 }
 
+/* ─── MOBILE ──────────────────────────────────────────────────── */
 @media (max-width:600px) {
-  .header { padding:14px 16px; }
-  .header-logo img { height:32px; }
-  .header-divider { display:none; }
-  .mk-switcher { padding:20px 12px 0; gap:8px; }
-  .mk-btn { min-width:140px; padding:12px 14px; }
-  .container { padding:20px 12px 0; }
-  .phase-header { padding:14px; gap:10px; }
-  .item { padding:11px 14px; }
-  .site-footer { padding:28px 16px 20px; }
-  .footer-links { gap:8px 16px; }
+
+  /* ── TOQUE: remove flash azul nativo */
+  * { -webkit-tap-highlight-color: transparent; }
+
+  /* ── HEADER: logo + título na linha 1 / barra de progresso na linha 2 */
+  .header {
+    padding: 12px 16px 14px;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .header-brand { gap: 10px; align-items: center; }
+  .header-logo img { height: 28px; }
+  .header-divider { display: none; }
+  .header-text h1 { font-size: 14px; }
+  .header-text p  { font-size: 9px; letter-spacing: 0.6px; }
+
+  /* barra de progresso vai para segunda linha, largura total */
+  .header-progress-wrap {
+    flex: none;
+    width: 100%;
+    min-width: unset;
+  }
+  .progress-labels { margin-bottom: 5px; }
+  .progress-pct    { font-size: 17px; }
+  .progress-track  { height: 8px; }
+
+  /* ── SWITCHER: dois botões lado a lado, full-width */
+  .mk-switcher { padding: 14px 12px 0; gap: 8px; }
+  .mk-btn {
+    flex: 1;
+    min-width: 0;
+    padding: 13px 12px;
+    gap: 8px;
+    border-radius: 10px;
+  }
+  .mk-btn-logo  { width: 34px; height: 34px; font-size: 18px; border-radius: 8px; }
+  .mk-btn-text strong { font-size: 13px; }
+  .mk-btn-text span   { font-size: 10px; }
+
+  /* ── CONTAINER */
+  .container { padding: 16px 12px 0; }
+
+  /* ── INTRO */
+  .intro        { padding: 14px 16px; gap: 10px; }
+  .intro-icon   { font-size: 22px; }
+  .intro h2     { font-size: 14px; }
+  .intro p      { font-size: 12px; }
+
+  /* ── FASE: header alto o suficiente para toque fácil */
+  .phase-header {
+    padding: 15px 14px;
+    gap: 8px;
+    min-height: 62px;
+  }
+  .phase-num    { width: 30px; height: 30px; font-size: 13px; flex-shrink: 0; }
+  .phase-icon   { font-size: 20px; }
+  .phase-title  { font-size: 14px; gap: 6px; }
+  .phase-badge  { font-size: 8px; padding: 2px 6px; }
+  .phase-sub    { font-size: 10px; }
+  .phase-count  { font-size: 11px; white-space: nowrap; }
+  .phase-chevron{ font-size: 12px; }
+
+  /* ── ITENS: touch target mínimo de 52px */
+  .item {
+    padding: 14px 14px;
+    gap: 10px;
+    min-height: 52px;
+    align-items: center;
+  }
+
+  /* checkbox maior para toque */
+  .item-cb {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+  .item-cb::after {
+    width: 7px; height: 12px;
+  }
+
+  .item-ico   { font-size: 20px; align-self: flex-start; margin-top: 2px; }
+  .item-label { font-size: 14px; line-height: 1.4; }
+  .item-desc  { font-size: 12px; margin-top: 4px; }
+
+  .tip, .warn { font-size: 11px; padding: 4px 8px; }
+
+  /* ── SUMMARY */
+  .summary    { padding: 18px 14px; gap: 14px; }
+  .stat-val   { font-size: 26px; }
+  .stat-label { font-size: 9px; }
+
+  /* ── RESET BUTTON */
+  .reset-btn  { padding: 12px 24px; font-size: 12px; margin-top: 18px; }
+
+  /* ── FOOTER */
+  .site-footer { margin-top: 40px; padding: 28px 16px 22px; }
+  .footer-logo { height: 28px; }
+  .footer-tagline { font-size: 12px; }
+  .footer-links { gap: 8px 14px; font-size: 11px; }
+  .footer-sep { display: none; }
 }
 </style>
 </head>
